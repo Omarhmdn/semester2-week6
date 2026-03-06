@@ -11,6 +11,8 @@
 #include "acutest.h"
 #include <string.h>
 
+char BAD_STRING;
+
 /* Function prototype */
 int is_palindrome(const char *str);
 
@@ -38,7 +40,40 @@ void test_obvious_palindrome(void) {
  * 2. Use TEST_MSG("message") to explain what went wrong if it fails
  * ============================================================ */
 
+void test_empty_string(void) {
+    TEST_CHECK(is_palindrome("") == BAD_STRING);
+    TEST_MSG("Expected BAD_STRING error");
+}
 
+void test_normal_palindrome(void) {
+    TEST_CHECK(is_palindrome("tacocat") == 1);
+    TEST_MSG("Expected 'tacocat' to be a palindrome");
+}
+    
+void test_incorrect_palindrome(void) {
+    TEST_CHECK(is_palindrome("camera") == 0);
+    TEST_MSG("Expected 'camera' is not a palindrome");
+}
+
+void test_single_char_string(void) {
+    TEST_CHECK(is_palindrome("a") == BAD_STRING);
+    TEST_MSG("Expected BAD_STRING error");
+}
+
+void test_even_palindrome(void) {
+    TEST_CHECK(is_palindrome("abba") == 1);
+    TEST_MSG("Expected 'abba' to be a palindrome");
+}
+
+void test_capital_palindrome(void) {
+    TEST_CHECK(is_palindrome("Racecar") == 1);
+    TEST_MSG("Expected 'Racecar' to be a palindrome");
+}
+
+void test_space_palindrome(void) {
+    TEST_CHECK(is_palindrome(" racecar") == 1);
+    TEST_MSG("Expected ' racecar' is not a palindrome");
+}
 
 /* ============================================================
  * TEST_LIST - Register all your tests here
@@ -48,6 +83,13 @@ void test_obvious_palindrome(void) {
  * ============================================================ */
 TEST_LIST = {
     { "obvious palindrome (racecar)", test_obvious_palindrome },
+    {"Testing space case", test_space_palindrome},
+    {"Testing capital case", test_capital_palindrome},
+    {"Testing even case", test_even_palindrome},
+    {"Testing empty case",test_empty_string},
+    {"Testing incorrect case",test_incorrect_palindrome},
+    {"Testing normal case",test_normal_palindrome},
+    {"Testing single character",test_single_char_string},
     /* TODO: Add your tests here, e.g.:
      * { "single character", test_single_char },
      * { "empty string", test_empty_string },
